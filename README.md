@@ -9,7 +9,7 @@ protocol over HTTP).
 ## Quick Start
 
 Prerequisites: [Go](https://golang.org/dl/),
-[Make](https://www.gnu.org/software/make/), [Multipass](https://multipass.run/).
+[Make](https://www.gnu.org/software/make/), [Docker](https://www.docker.com/).
 
 You can bootstrap the entire development environment using `make devenv`. This
 command will set up a VM with
