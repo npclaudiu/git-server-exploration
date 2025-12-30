@@ -43,3 +43,7 @@ devenv-up:
 .PHONY: devenv-down
 devenv-down:
 	pnpm --prefix ./scripts devenv down
+
+.PHONY: migrate
+migrate:
+	pnpm --prefix ./scripts devenv migrate

@@ -6,16 +6,16 @@ log:
   level: info
 
 meta_store:
-  host: "devenv.local"
+  host: "localhost"
   port: 5432
-  user: "git_user"
-  password: "git_password"
-  dbname: "git_server"
+  user: "user"
+  password: "password"
+  dbname: "git-server-poc"
   sslmode: "disable"
 
 object_store:
   endpoint: http://localhost:8000
-  access_key: ACCESS_KEY
-  secret_key: SECRET_KEY
+  access_key: CRJFQ1D9O5CN78V4F4FR
+  secret_key: AnyhjoBjqw3QkbQqXzwb6SrAPpoefIWLYyC7raSY
   bucket: git-lfs
   region: us-east-1

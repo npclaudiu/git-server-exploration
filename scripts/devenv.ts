@@ -129,6 +129,31 @@ async function creds() {
     fs.writeFileSync(kConfigFile, doc.toString());
 }
 
+async function migrate() {
+    console.log("Running database migrations...");
+
+    if (!fs.existsSync(kConfigFile)) {
+        console.error(`Config file not found at ${kConfigFile}`);
+        process.exit(1);
+    }
+
+    const configContent = fs.readFileSync(kConfigFile, 'utf-8');
+    const config = YAML.parse(configContent);
+
+    if (!config.meta_store) {
+        console.error("meta_store configuration not found in config.yaml");
+        process.exit(1);
+    }
+
+    const { user, password, host, port, dbname, sslmode } = config.meta_store;
+    process.env.DATABASE_URL = `postgres://${user}:${password}@${host}:${port}/${dbname}?sslmode=${sslmode}`;
+
+    const migrationsDir = path.join(__dirname, '..', 'db', 'migrations');
+    const schemaFile = path.join(__dirname, '..', 'db', 'schema.sql');
+
+    await $`pnpm exec dbmate -d ${migrationsDir} -s ${schemaFile} up`;
+}
+
 async function main() {
     const program = new Command();
 
@@ -154,6 +179,10 @@ async function main() {
     program.command('creds')
         .description('Generate/Refresh S3 credentials')
         .action(creds);
+
+    program.command('migrate')
+        .description('Run database migrations')
+        .action(migrate);
 
     program.parse(process.argv);
 }
