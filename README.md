@@ -52,7 +52,6 @@ The Rados Gateway (RGW) is enabled to provide the S3 API.
 
 - **Service Name**: `rgw`
 - **Port**: 8000 (Mapped to host port 8000)
-- **Setup Command**: `microceph enable rgw`
 
 A default user is automatically created by the `devenv` script to generate
 S3-like RGW access and secret keys, which are then written to `config.yaml`.
@@ -72,38 +71,22 @@ However, for the most common commands, this project provides wrapper scripts in
 
 ### Common Commands
 
-**Check Cluster Status:**
-
 ```bash
+# Check Cluster Status:
 ./devenv/bin/microceph status
-```
 
-**Check Ceph Health:**
-
-```bash
+# Check Ceph Health:
 ./devenv/bin/ceph -s
-```
 
-**List RGW Users:**
-
-```bash
+# List RGW Users:
 ./devenv/bin/radosgw-admin user list
-```
 
-**Create RGW User:**
-
-```bash
+# Create RGW User:
 ./devenv/bin/radosgw-admin user create --uid="hercules" --display-name="Hercules"
-```
 
-**User status:**
-
-```bash
+# User status:
 ./devenv/bin/radosgw-admin user info --uid="hercules"
-```
 
-**Delete RGW User:**
-
-```bash
+# Delete RGW User:
 ./devenv/bin/radosgw-admin user rm --uid="hercules"
 ```
