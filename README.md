@@ -1,7 +1,7 @@
 # Git Server PoC
 
 > Disclaimer: This project is an experiment in an early stage of development and
-> there is no intent to make it production-ready. The documentation is
+> there is no intent to make it production-ready. The documentation might be
 > incomplete and the code is subject to change.
 
 ## Introduction
@@ -19,7 +19,7 @@ Unlike traditional Git server implementations that rely on file-system-based
 "bare" repositories, this server abstracts data persistence through custom
 storage interfaces, routing data to specialized systems:
 
-- **Object Storage (S3/Ceph)**: Git objects (blobs, trees, commits) are
+- **Object Storage (Ceph RGW)**: Git objects (blobs, trees, commits) are
   content-addressed and stored in an S3-compatible object store. This approach
   addresses scalability challenges associated with massive file counts (the
   "Small File Problem") by treating Git objects as immutable data blobs.
@@ -101,29 +101,43 @@ Git clients to interact with hosted repositories.
 This implementation deviates from standard directory-based Git servers in
 several key ways:
 
-- **Architecture**: It uses a custom implementation of `go-git`'s
-  `storer.Storer` interface. This abstracts the underlying storage, allowing us
-  to route:
-  - **Objects** (blobs, trees, commits) to **S3** (via `internal/objectstore`).
-  - **References** (branches, tags) to **PostgreSQL** (via
-    `internal/metastore`).
+#### **Architecture**
 
-- **Object Storage**:
-  - Objects are stored as "loose objects" in S3 buckets under the key pattern
-    `repositories/{repo}/objects/{hash}`.
-  - The content is stored with the standard Git header (`type size\0`)
+It uses a custom implementation of `go-git`'s `storer.Storer` interface.
+This abstracts the underlying storage, allowing us to route:
+
+- **Objects** (blobs, trees, commits) to **Ceph** (via `internal/objectstore`).
+- **References** (branches, tags) to **PostgreSQL** (via `internal/metastore`).
+
+```mermaid
+graph TD
+    Client[Git Client]
+    Server[Git Server PoC]
+    S3[(Object Storage <br> Ceph/S3)]
+    DB[(Metadata Store <br> PostgreSQL)]
+
+    Client -- "HTTP (Smart Protocol) <br> /git-receive-pack <br> /git-upload-pack" --> Server
+    Server -- "Stream Objects <br> (Blobs, Trees, Commits)" --> S3
+    Server -- "Manage References <br> (Branches, Tags)" --> DB
+```
+
+#### **Object Storage**
+
+- Objects are stored as "loose objects" in S3-compatible Ceph buckets under
+    the key pattern `repositories/{repo}/objects/{hash}`.
+- The content is stored with the standard Git header (`type size\0`)
     prepended, allowing for compatibility and inspection.
-  - **Streaming Uploads**: To handle large pushes and avoid memory buffering
-    issues, the server uses the AWS SDK's `feature/s3/manager` Uploader. This
-    enables streaming of packet-line data directly to S3 without needing to seek
-    the input stream.
+- **Streaming Uploads**: To handle large pushes and avoid memory buffering
+    issues, the server uses the AWS SDK's S3 Uploader. This enables streaming
+    of packet-line data directly to Ceph without needing to seek the input
+    stream.
 
-- **Quirks & Workarounds**:
-  - **Manual Packet-Line Parsing**: During `git-receive-pack`, the server
-    manually delimits the command packet-lines from the packfile data stream.
-    This is necessary to prevent `go-git`'s default behavior from over-buffering
-    or misinterpreting the stream boundaries when piping directly to object
-    storage.
+#### **Quirks & Workarounds**
+
+- **Manual Packet-Line Parsing**: During `git-receive-pack`, the server manually
+  delimits the command packet-lines from the packfile data stream. This is
+  necessary to prevent `go-git`'s default behavior from over-buffering or
+  misinterpreting the stream boundaries when piping directly to object storage.
 
 ### Limitations
 
@@ -146,7 +160,7 @@ container named `microceph`.
 
 ### Cluster Topology
 
-The MicroCeph cluster is configured as a single-node cluster with the following
+The Ceph cluster is configured as a single-node cluster with the following
 components:
 
 - **Monitors (MONs)**: 1 (Integrated single-node default)
@@ -169,9 +183,9 @@ S3-like RGW access and secret keys, which are then written to `config.yaml`.
 
 ### Invoking Binaries
 
-Since MicroCeph runs inside a Docker container using `snapd`, the binaries are
+Since Ceph runs inside a Docker container using `snapd`, the binaries are
 installed in `/snap/bin/`. You can invoke them from the host machine using
-`docker exec`. The generic pattern to run any MicroCeph command is:
+`docker exec`. The generic pattern to run any Ceph command is:
 
 ```bash
 docker exec microceph /snap/bin/<binary_name> [arguments]
@@ -260,3 +274,8 @@ make ms-gen
 # List sequences of a table:
 ./devenv/bin/psql -c "\ds+ table_name"
 ```
+
+__
+
+Copyright (c) 2026, Claudiu Nedelcu. All rights reserved.
+Licensed under the [MIT License](LICENSE.txt).
