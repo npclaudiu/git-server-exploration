@@ -7,10 +7,10 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/npclaudiu/git-server-poc/internal/config"
-	"github.com/npclaudiu/git-server-poc/internal/metastore"
-	"github.com/npclaudiu/git-server-poc/internal/objectstore"
-	"github.com/npclaudiu/git-server-poc/internal/server"
+	"github.com/npclaudiu/git-server-exploration/internal/config"
+	"github.com/npclaudiu/git-server-exploration/internal/metastore"
+	"github.com/npclaudiu/git-server-exploration/internal/objectstore"
+	"github.com/npclaudiu/git-server-exploration/internal/server"
 )
 
 func main() {

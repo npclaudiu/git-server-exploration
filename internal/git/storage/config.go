@@ -7,7 +7,7 @@ import (
 	"io"
 
 	"github.com/go-git/go-git/v5/config"
-	"github.com/npclaudiu/git-server-poc/internal/objectstore"
+	"github.com/npclaudiu/git-server-exploration/internal/objectstore"
 )
 
 type ConfigStorage struct {

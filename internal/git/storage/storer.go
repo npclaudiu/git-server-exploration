@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/go-git/go-git/v5/storage"
-	"github.com/npclaudiu/git-server-poc/internal/metastore"
-	"github.com/npclaudiu/git-server-poc/internal/objectstore"
+	"github.com/npclaudiu/git-server-exploration/internal/metastore"
+	"github.com/npclaudiu/git-server-exploration/internal/objectstore"
 )
 
 type Storer struct {

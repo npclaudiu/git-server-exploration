@@ -8,7 +8,7 @@ import (
 
 	"github.com/go-git/go-git/v5/plumbing"
 	"github.com/go-git/go-git/v5/plumbing/storer"
-	"github.com/npclaudiu/git-server-poc/internal/objectstore"
+	"github.com/npclaudiu/git-server-exploration/internal/objectstore"
 )
 
 type ObjectStorage struct {

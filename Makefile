@@ -1,4 +1,4 @@
-EXECUTABLE=git-server-poc
+EXECUTABLE=git-server
 
 .PHONY: all
 all: debug release
@@ -40,8 +40,8 @@ tidy:
 	go mod tidy
 	go mod verify
 
-.PHONY: devenv-up
-devenv-up:
+.PHONY: devenv
+devenv:
 	pnpm --prefix ./devenv devenv up
 
 .PHONY: devenv-down

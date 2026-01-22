@@ -10,7 +10,7 @@ meta_store:
   port: 5432
   user: "minerva"
   password: "m1n3rv@"
-  dbname: "git-server-poc"
+  dbname: "git-server"
   sslmode: "disable"
 
 object_store:

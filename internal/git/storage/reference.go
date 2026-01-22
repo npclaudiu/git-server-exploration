@@ -5,7 +5,7 @@ import (
 
 	"github.com/go-git/go-git/v5/plumbing"
 	"github.com/go-git/go-git/v5/plumbing/storer"
-	"github.com/npclaudiu/git-server-poc/internal/metastore"
+	"github.com/npclaudiu/git-server-exploration/internal/metastore"
 )
 
 type ReferenceStorage struct {

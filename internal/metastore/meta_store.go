@@ -6,7 +6,7 @@ import (
 
 	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/npclaudiu/git-server-poc/internal/metastore/pg"
+	"github.com/npclaudiu/git-server-exploration/internal/metastore/pg"
 )
 
 type MetaStore struct {

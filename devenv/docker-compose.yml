@@ -1,5 +1,5 @@
 version: '3.8'
-name: git-server-poc-devenv
+name: git-server-devenv
 
 services:
   microceph:
@@ -30,7 +30,7 @@ services:
     environment:
       POSTGRES_USER: minerva
       POSTGRES_PASSWORD: m1n3rv@
-      POSTGRES_DB: git-server-poc
+      POSTGRES_DB: git-server
     ports:
       - "5432:5432"
     volumes:

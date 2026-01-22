@@ -12,10 +12,10 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
-	"github.com/npclaudiu/git-server-poc/internal/config"
-	gitserver "github.com/npclaudiu/git-server-poc/internal/git/server"
-	"github.com/npclaudiu/git-server-poc/internal/metastore"
-	"github.com/npclaudiu/git-server-poc/internal/objectstore"
+	"github.com/npclaudiu/git-server-exploration/internal/config"
+	gitserver "github.com/npclaudiu/git-server-exploration/internal/git/server"
+	"github.com/npclaudiu/git-server-exploration/internal/metastore"
+	"github.com/npclaudiu/git-server-exploration/internal/objectstore"
 )
 
 type Server struct {
@@ -110,7 +110,7 @@ func (s *Server) Run() error {
 	s.wg.Add(1)
 	go func() {
 		defer s.wg.Done()
-		slog.Info("git-server-poc listening", "addr", s.httpServer.Addr)
+		slog.Info("git-server listening", "addr", s.httpServer.Addr)
 		if err := s.httpServer.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			slog.Error("error listening and serving", "err", err)
 		}

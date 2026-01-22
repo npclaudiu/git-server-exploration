@@ -1,4 +1,4 @@
-module github.com/npclaudiu/git-server-poc
+module github.com/npclaudiu/git-server-exploration
 
 go 1.25.4
 

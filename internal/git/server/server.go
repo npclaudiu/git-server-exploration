@@ -13,9 +13,9 @@ import (
 	"github.com/go-git/go-git/v5/plumbing/storer"
 	"github.com/go-git/go-git/v5/plumbing/transport"
 	"github.com/go-git/go-git/v5/plumbing/transport/server"
-	"github.com/npclaudiu/git-server-poc/internal/git/storage"
-	"github.com/npclaudiu/git-server-poc/internal/metastore"
-	"github.com/npclaudiu/git-server-poc/internal/objectstore"
+	"github.com/npclaudiu/git-server-exploration/internal/git/storage"
+	"github.com/npclaudiu/git-server-exploration/internal/metastore"
+	"github.com/npclaudiu/git-server-exploration/internal/objectstore"
 )
 
 type GitHandler struct {
