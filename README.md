@@ -173,4 +173,4 @@ Several topics are covered in greater detail in `docs/`:
 ## License
 
 Copyright © 2026, Claudiu Nedelcu. All rights reserved.<br />Licensed under the
-[MIT License](LICENSE.txt).
+[2-Clause BSD License](LICENSE.txt).
